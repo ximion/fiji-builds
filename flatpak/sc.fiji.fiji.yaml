@@ -1,10 +1,10 @@
 id: sc.fiji.fiji
 runtime: org.freedesktop.Platform
-runtime-version: '21.08'
+runtime-version: '23.08'
 sdk: org.freedesktop.Sdk
 sdk-extensions:
   - org.freedesktop.Sdk.Extension.openjdk8
-command: /app/fiji/launch-imagej.sh
+command: /app/fiji/launch-fiji.sh
 
 finish-args:
   - --share=ipc
@@ -49,13 +49,14 @@ modules:
     - mvn clean install -DskipTests -Dscijava.app.directory="/app/fiji"
   sources:
     - type: git
+      # TODO: pin to a specific commit for reproducible builds
+      branch: main
       url: https://github.com/fiji/fiji.git
 
 - name: fiji-update
   buildsystem: simple
-  build-options:
-    env:
-      DEBUG: '1'
+  # Network access is required here: Fiji's updater fetches plugins and the
+  # Java-8 JRE from the official update sites as part of the build.
   build-commands:
     - /app/fiji/ImageJ-linux64 --update add-update-site Fiji https://update.fiji.sc/
     - /app/fiji/ImageJ-linux64 --update add-update-site Java-8 https://sites.imagej.net/Java-8/
@@ -77,11 +78,11 @@ modules:
     - install -D sc.fiji.fiji.metainfo.xml /app/share/metainfo/sc.fiji.fiji.metainfo.xml
     - install -D /app/fiji/images/icon.png /app/share/icons/hicolor/256x256/apps/sc.fiji.fiji.png
     - install -D sc.fiji.fiji.desktop /app/share/applications/sc.fiji.fiji.desktop
-    - install -D launch-imagej.sh /app/fiji/launch-imagej.sh
+    - install -D launch-fiji.sh /app/fiji/launch-fiji.sh
   sources:
     - type: file
       path: sc.fiji.fiji.metainfo.xml
     - type: file
       path: sc.fiji.fiji.desktop
     - type: file
-      path: launch-imagej.sh
+      path: launch-fiji.sh

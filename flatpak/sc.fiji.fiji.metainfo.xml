@@ -16,4 +16,8 @@
   </description>
 
   <launchable type="desktop-id">sc.fiji.fiji.desktop</launchable>
+
+  <releases>
+    <release version="2.14.0" date="2023-09-19"/>
+  </releases>
 </component>

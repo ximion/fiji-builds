@@ -1,7 +1,7 @@
 #
 # Docker file for building Flatpak bundles
 #
-FROM debian:testing
+FROM debian:bookworm
 
 # prepare
 RUN apt-get update -qq
